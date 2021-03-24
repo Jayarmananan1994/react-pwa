@@ -1,37 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/public/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Lenovo: Home Edge" />
-    <link rel="apple-touch-icon" href="/public/logo192.png" />
-     <!--
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/public/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Lenovo: Home Edge" />
+  <link rel="apple-touch-icon" href="/public/logo192.png" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <title>Home Edge app</title>
-  </head>
-  <body>
-    <div id="root">
-    </div>
-    <noscript>Please enable JavaScript to continue using this application.</noscript>
-    <script src="src/index.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js').then(
-            registration => {
-              console.log(`Service Worker registered! Scope: ${registration.scope}`);
-            },
-            error => {
-              console.error(`Service Worker registration failed: ${error}`);
-            },
-          );
-        });
-      }
-    </script>
-  </body>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <title>Home Edge app</title>
+</head>
+
+<body>
+  <div id="root">
+  </div>
+  <noscript>Please enable JavaScript to continue using this application.</noscript>
+  <script src="src/index.js"></script>
+  <script>
+    const sw = "service-worker.js";
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register(sw).then(
+          registration => {
+            console.log(`Service Worker registered! Scope: ${registration.scope}`);
+            registration.onupdatefound = () => {
+              const installingWorker = registration.installing;
+              if (installingWorker == null) {
+                return;
+              }
+              installingWorker.onstatechange = () => {
+                if (installingWorker.state === "installed") {
+                  if (navigator.serviceWorker.controller) {
+                    console.log(
+                      "New content is available and will be used when all " +
+                      "tabs for this page are closed. See https://bit.ly/CRA-PWA."
+                    );
+                  } else {
+                    console.log("Content is cached for offline use.");
+                  }
+                }
+              }
+            }
+          },
+          error => {
+            console.error(`Service Worker registration failed: ${error}`);
+          },
+        );
+      });
+    }
+  </script>
+</body>
+
 </html>

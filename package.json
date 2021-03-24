@@ -8,15 +8,23 @@
     "start": "parcel index.html",
     "unit": "jest test/**/*.spec.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html",
+    "postbuild": "workbox generateSW"
   },
   "devDependencies": {
     "cypress": "6.8.0",
     "jest": "26.6.3",
-    "parcel-bundler": "1.12.5"
+    "parcel-bundler": "1.12.5",
+    "workbox-cli": "6.1.2"
   },
   "dependencies": {
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-script": "2.0.5",
+    "workbox-core": "6.1.2",
+    "workbox-expiration": "6.1.2",
+    "workbox-precaching": "6.1.2",
+    "workbox-routing": "6.1.2",
+    "workbox-strategies": "6.1.2"
   }
 }
